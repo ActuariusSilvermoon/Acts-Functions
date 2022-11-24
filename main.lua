@@ -50,6 +50,7 @@ loadFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 loadFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_ENTERING_WORLD" then
 		fillTrackingArray();
+
 		loadFrame:UnregisterEvent("PLAYER_ENTERING_WORLD");
 	end
 end);

@@ -17,40 +17,20 @@ SLASH_ACTFUNCTIONS1 = "/actfunctions"
 SLASH_ACTFUNCTIONS2 = "/act"
 
 SlashCmdList.ACTFUNCTIONS = function(msg)
-	msg = string.lower(msg);
-	local bag, slot;
-	
+	msg = string.lower(msg) or "";
+	local useString = "";
+
 	if msg == nil or msg == "" then 
-		print("No command received.") 
+		print("No command received.")
 		return
 	end;
-	
-	if string.find(msg or "", "disenchant")then
-		bag, slot = functions.disenchantScan();
-	elseif string.find(msg or "", "prospecting") then
-		bag, slot  = functions.prospectScan();
-	elseif string.find(msg or "", "milling") then
-		bag, slot  = functions.millScan();
-	elseif string.find(msg or "", "lockpicking") then
-		bag, slot = functions.itemScan("Lockbox");
-	elseif string.find(msg or "", "track") then
-		local track = UnitCreatureType("target");
 
-		if UnitClass("player") == "Hunter"  then
-			functions.hunterTrack(track);
-		end
-
-		return;
-	elseif string.find(msg or "", "mount") then
-		functions.mountUp();
-
-		return;
-	elseif string.find(msg or "", "config") then
+	if string.find(msg, "config") then
 		functions.toggleActConfig();
 
 		return;
-	elseif string.find(msg or "", "print") then
-        for key, value in pairs(actSettings) do
+	elseif string.find(msg, "print") then
+		for key, value in pairs(actSettings) do
 			print(key);
 			print(value);
 		end
@@ -58,13 +38,42 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 		print("");
 
 		return;
+
+	elseif string.find(msg, "track") then
+		local track = UnitCreatureType("target");
+
+		if variables.class == "HUNTER"  then
+			functions.hunterTrack(track);
+		end
+
+		return;
 	end
 
-	if not (bag == nil or bag == "") then 
-		print(GetContainerItemLink(bag, slot));
-		EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 ".. bag .. " " .. slot));
+	if string.find(msg, "mount") then
+		useString = functions.getMount();
+
+		if IsMounted() and GetMacroBody(msg):find(useString) then
+			Dismount();
+			useString = "";
+		end
+
+	elseif string.find(msg, "disenchant")then
+		useString = functions.disenchantScan();
+
+	elseif string.find(msg, "prospecting") then
+		useString  = functions.prospectScan();
+
+	elseif string.find(msg, "milling") then
+		useString  = functions.millScan();
+
+	elseif string.find(msg, "lockpicking") then
+		useString = functions.itemScan("Lockbox");
+
+	end
+
+	if not (useString == nil or useString == "") then
+		EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 " .. useString));
 	else
-		print("Error");
 		EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 "));
 	end
 end
@@ -79,7 +88,6 @@ loadFrame:RegisterEvent("ADDON_LOADED");
 loadFrame:SetScript("OnEvent", function(self, event, ...)
 	local arg1,arg2,arg3,arg4 = ...;
     if event == "ADDON_LOADED" and arg1 == "Acts Functions" then
-
         ------------
         --Settings--
         ------------
@@ -113,57 +121,60 @@ loadFrame:SetScript("OnEvent", function(self, event, ...)
         ---Mounts---
         ------------
 
-		if actMounts == nil then
-			actMounts = {};
+
+		if actCharacterSettings == nil then
+			actCharacterSettings = {};
 		end
 
-		if actMounts.dragonFlyingMount == nil then
-			actMounts.dragonFlyingMount = 1589; --Renewed Proto-Drake
+		if actCharacterSettings.ctrlMount == nil then
+			actCharacterSettings.ctrlMount = "Grand Expedition Yak";
 		end
 
-		if actMounts.defaultMount == nil then
-			actMounts.defaultMount = 1222; --Vulpine Familiar
+		if actCharacterSettings.altMount == nil then
+			actCharacterSettings.altMount = "Mighty Caravan Brutosaur";
 		end
 
-		if actMounts.groundMount == nil then
-			actMounts.groundMount = 1222; --Vulpine Familiar
+		if actCharacterSettings.shiftMount == nil then
+			actCharacterSettings.shiftMount = "Sandstone Drake";
 		end
 
-		if actMounts.altMount == nil then
-			actMounts.altMount = 1039; --Brutosaur
+		if actCharacterSettings.dragonFlyingMount == nil then
+			actCharacterSettings.dragonFlyingMount = "Renewed Proto-Drake";
 		end
 
-		if actMounts.ctrlMount == nil then
-			actMounts.ctrlMount = 460; --Yak
+		if actCharacterSettings.groundMount == nil then
+			actCharacterSettings.groundMount = "Vulpine Familiar";
 		end
 
-		if actMounts.shiftMount == nil then
-			actMounts.shiftMount = 407; --Sandstone Drake
+		if actCharacterSettings.defaultMount == nil then
+			actCharacterSettings.defaultMount = "Vulpine Familiar";
 		end
 
-		if actMounts.dragonFlyingMountBool == nil then
-			actMounts.dragonFlyingMountBool = true;
+		if actCharacterSettings.ctrlMountBool == nil then
+			actCharacterSettings.ctrlMountBool = false;
 		end
 
-		if actMounts.defaultMountBool == nil then
-			actMounts.defaultMountBool = true;
+		if actCharacterSettings.altMountBool == nil then
+			actCharacterSettings.altMountBool = false;
 		end
 
-		if actMounts.groundMountBool == nil then
-			actMounts.groundMountBool = false;
+		if actCharacterSettings.shiftMountBool == nil then
+			actCharacterSettings.shiftMountBool = false;
 		end
 
-		if actMounts.altMountBool == nil then
-			actMounts.altMountBool = false;
+		if actCharacterSettings.dragonFlyingMountBool == nil then
+			actCharacterSettings.dragonFlyingMountBool = false;
 		end
 
-		if actMounts.ctrlMountBool == nil then
-			actMounts.ctrlMountBool = false;
+		if actCharacterSettings.groundMountBool == nil then
+			actCharacterSettings.groundMountBool = false;
 		end
 
-		if actMounts.shiftMountBool == nil then
-			actMounts.shiftMountBool = false;
-		end
+        ---------------------
+        ---Local variables---
+        ---------------------
+
+		variables.class = select(2, UnitClass("player"));
 
 		loadFrame:UnregisterEvent("ADDON_LOADED");
 	end
