@@ -10,11 +10,15 @@ local variables = namespace.variables;
 
 variables.dragonFlyingZones =
 {
+	[1978] = true, --Dragon Isles
     [2112] = true, --Valdrakken
     [2023] = true, --Ohn'ahran Plains
     [2025] = true, --Thaldraszus
     [2022] = true, --The Waking Shores
     [2024] = true, --The Azure Span
+	[2093] = true, --The Kohud Offensive
+	[2085] = true, --Primalist Tomorrow
+	[2151] = true, --The Forbidden Reach
 };
 
 variables.itemQuality = {

@@ -33,8 +33,8 @@ function functions.getMount()
 		return actCharacterSettings.shiftMount;
 
 	elseif
-		variables.dragonFlyingZones[C_Map.GetBestMapForUnit("player")] and
-		actCharacterSettings.dragonFlyingMountBool
+		actCharacterSettings.dragonFlyingMountBool and
+		variables.dragonFlyingZones[C_Map.GetBestMapForUnit("player")]
 	then
 		return actCharacterSettings.dragonFlyingMount;
 
