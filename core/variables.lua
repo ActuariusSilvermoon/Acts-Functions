@@ -2,12 +2,16 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-
 local ADDON_NAME, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
 
 
+-----------------------
+--VARIABLE DEFINITIONS-
+-----------------------
+
+--Zones where mount macro should allow dragonriding maps.
 variables.dragonFlyingZones =
 {
 	[1978] = true, --Dragon Isles
@@ -19,8 +23,10 @@ variables.dragonFlyingZones =
 	[2093] = true, --The Kohud Offensive
 	[2085] = true, --Primalist Tomorrow
 	[2151] = true, --The Forbidden Reach
+	[2133] = true, --Zaralek Caverns
 };
 
+--Item Quality array to be used for disenchant macro.
 variables.itemQuality = {
 	{
 		name = "|cFF00FF00Uncommon|r",
@@ -36,6 +42,7 @@ variables.itemQuality = {
 	}
 };
 
+--Array to keep tracking types for hunter tracking macro.
 variables.trackingArray = {
 	Beast = 0,
 	Demon = 0,
@@ -45,4 +52,4 @@ variables.trackingArray = {
 	Humanoid = 0,
 	Mechanical = 0,
 	Undead = 0
-}
+};

@@ -2,7 +2,6 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-
 local ADDON_NAME, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
@@ -44,7 +43,6 @@ end
 -----------------------
 -----EVENT HANDLING----
 -----------------------
-
 
 loadFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 loadFrame:SetScript("OnEvent", function(self, event, ...)

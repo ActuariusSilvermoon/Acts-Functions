@@ -1,7 +1,7 @@
-## Interface: 100007
+## Interface: 100100
 ## Title: Acts Functions
 ## Author: Actuarius
-## Version: 2.1.2 
+## Version: 2.1.3
 ## SavedVariables: actSettings
 ## SavedVariablesPerCharacter: actCharacterSettings
 

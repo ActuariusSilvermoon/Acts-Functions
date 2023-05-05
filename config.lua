@@ -2,17 +2,16 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-
 local ADDON_NAME, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
 local actConfigWindow = CreateFrame("FRAME", "ActConfigWindow", UIParent);
 local loadFrame = CreateFrame("FRAME");
 
+
 -----------------------
 --FUNCTION DEFINITIONS-
 -----------------------
-
 
 --Check button factory.
 local function createCheckbutton(anchor, name, parent, x_loc, y_loc, displayname, tooltip)
@@ -225,7 +224,6 @@ end
 -----EVENT HANDLING----
 -----------------------
 
-
 loadFrame:RegisterEvent("ADDON_LOADED");
 loadFrame:SetScript("OnEvent", function(self, event, ...)
 	local arg1,arg2,arg3,arg4 = ...;
@@ -239,7 +237,6 @@ end);
 -----------------------
 -----CONFIG WINDOW-----
 -----------------------
-
 
 --Add config to standard wow interface window.
 local category = Settings.RegisterCanvasLayoutCategory(actConfigWindow, "Act's Functions");
@@ -351,7 +348,6 @@ actConfigWindow:SetScript("OnHide", function(self) saveData(); end);
 -----------------------
 ---GLOBAL FUNCTIONS----
 -----------------------
-
 
 --Create a "global" config toggle function so the settings window can be opened from the init.lua file code.
 function functions.toggleActConfig()

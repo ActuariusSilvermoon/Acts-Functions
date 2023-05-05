@@ -2,7 +2,6 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-
 local ADDON_NAME, namespace = ...;
 local functions = {};
 local variables = {};
@@ -21,15 +20,18 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 	local useString = "";
 
 	if msg == nil or msg == "" then 
-		print("No command received.")
-		return
-	end;
+		print("No command received.");
+
+		return;
+	end
 
 	if string.find(msg, "config") then
 		functions.toggleActConfig();
 
 		return;
-	elseif string.find(msg, "print") then
+	end
+
+	if string.find(msg, "print") then
 		for key, value in pairs(actSettings) do
 			print(key);
 			print(value);
@@ -38,8 +40,9 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 		print("");
 
 		return;
+	end
 
-	elseif string.find(msg, "track") then
+	if string.find(msg, "track") then
 		local track = UnitCreatureType("target");
 
 		if variables.class == "HUNTER"  then
@@ -56,19 +59,14 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 			Dismount();
 			useString = "";
 		end
-
 	elseif string.find(msg, "disenchant")then
 		useString = functions.disenchantScan();
-
 	elseif string.find(msg, "prospecting") then
 		useString  = functions.prospectScan();
-
 	elseif string.find(msg, "milling") then
 		useString  = functions.millScan();
-
 	elseif string.find(msg, "lockpicking") then
 		useString = functions.itemScan("Lockbox");
-
 	end
 
 	if not (useString == nil or useString == "") then
@@ -82,7 +80,6 @@ end
 -----------------------
 -----EVENT HANDLING----
 -----------------------
-
 
 loadFrame:RegisterEvent("ADDON_LOADED");
 loadFrame:SetScript("OnEvent", function(self, event, ...)
@@ -120,7 +117,6 @@ loadFrame:SetScript("OnEvent", function(self, event, ...)
         ------------
         ---Mounts---
         ------------
-
 
 		if actCharacterSettings == nil then
 			actCharacterSettings = {};
@@ -169,6 +165,7 @@ loadFrame:SetScript("OnEvent", function(self, event, ...)
 		if actCharacterSettings.groundMountBool == nil then
 			actCharacterSettings.groundMountBool = false;
 		end
+
 
         ---------------------
         ---Local variables---
