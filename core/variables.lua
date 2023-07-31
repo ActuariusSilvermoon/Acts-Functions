@@ -2,7 +2,7 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-local ADDON_NAME, namespace = ...;
+local _, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
 

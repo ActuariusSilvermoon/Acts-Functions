@@ -2,7 +2,7 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-local ADDON_NAME, namespace = ...;
+local _, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
 local actConfigWindow = CreateFrame("FRAME", "ActConfigWindow", UIParent);
@@ -17,7 +17,7 @@ local loadFrame = CreateFrame("FRAME");
 local function createCheckbutton(anchor, name, parent, x_loc, y_loc, displayname, tooltip)
 	local checkbutton = CreateFrame("CheckButton", name, parent, "ChatConfigCheckButtonTemplate");
 	checkbutton:SetPoint(anchor, x_loc, y_loc);
-	_G[checkbutton:GetName().."Text"]:SetText(displayname);
+	_G[checkbutton:GetName() .. "Text"]:SetText(displayname);
 	checkbutton.tooltip = tooltip;
 
 	return checkbutton;
@@ -26,7 +26,7 @@ end
 --Quality dropdown factory
 local function qualityDropDownFactory(frame, frameDropDown, x_loc, y_loc, title)
 	frame:SetPoint("TOPLEFT", x_loc, y_loc);
-	frame:SetSize(100,200);
+	frame:SetSize(100, 200);
 
 	frame.dropDown = frameDropDown;
 	frame.dropDown:SetPoint("CENTER", frame, "CENTER", 0, -20);
@@ -34,7 +34,7 @@ local function qualityDropDownFactory(frame, frameDropDown, x_loc, y_loc, title)
 	frame.dropDown.displayMode = "MENU";
 	UIDropDownMenu_SetText(frame.dropDown, title);
 
-	frame.dropDown.onClick = function(self, arg1, arg2, checked)
+	frame.dropDown.onClick = function(self, _)
 		frame.dropDown.quality = self.value;
 	end
 
@@ -43,7 +43,6 @@ local function qualityDropDownFactory(frame, frameDropDown, x_loc, y_loc, title)
 
 		for i = 1, #variables.itemQuality do
 			local item = variables.itemQuality[i];
-			_,_,_,hex = GetItemQualityColor(item.number);
 			info.text = item.name;
 			info.func = self.onClick;
 			info.value = item.number;
@@ -111,8 +110,9 @@ local function updateConfigWindow()
 	actConfigWindow.minQuality.dropDown.quality = actSettings.minQuality;
 	actConfigWindow.maxQuality.dropDown.quality = actSettings.maxQuality;
 
-	actConfigWindow.altMount.editBox.mountIdentification = actSettings.altMount;
 	actConfigWindow.ctrlMount.editBox.mountIdentification = actSettings.ctrlMount;
+	actConfigWindow.altMount.editBox.mountIdentification = actSettings.altMount;
+	actConfigWindow.shiftMount.editBox.mountIdentification = actSettings.shiftMount;
 	actConfigWindow.dragonFlyingMount.editBox.mountIdentification = actSettings.dragonFlyingMount;
 	actConfigWindow.groundMount.editBox.mountIdentification = actSettings.groundMount;
 	actConfigWindow.defaultMount.editBox.mountIdentification = actSettings.defaultMount;
@@ -120,14 +120,14 @@ local function updateConfigWindow()
 	_G["actDeArmor"]:SetChecked(actSettings.deArmor);
 	_G["actDeWeapon"]:SetChecked(actSettings.deWeapon);
 
-	_G["actAltMount"]:SetChecked(actCharacterSettings.altMountBool);
 	_G["actCtrlMount"]:SetChecked(actCharacterSettings.ctrlMountBool);
+	_G["actAltMount"]:SetChecked(actCharacterSettings.altMountBool);
 	_G["actShiftMount"]:SetChecked(actCharacterSettings.shiftMountBool);
-	_G["actGroundMount"]:SetChecked(actCharacterSettings.groundMountBool);
 	_G["actDragonflyingMount"]:SetChecked(actCharacterSettings.dragonFlyingMountBool);
+	_G["actGroundMount"]:SetChecked(actCharacterSettings.groundMountBool);
 
-	actConfigWindow.altMount.editBox:SetText(actCharacterSettings.altMount);
 	actConfigWindow.ctrlMount.editBox:SetText(actCharacterSettings.ctrlMount);
+	actConfigWindow.altMount.editBox:SetText(actCharacterSettings.altMount);
 	actConfigWindow.shiftMount.editBox:SetText(actCharacterSettings.shiftMount);
 	actConfigWindow.dragonFlyingMount.editBox:SetText(actCharacterSettings.dragonFlyingMount);
 	actConfigWindow.groundMount.editBox:SetText(actCharacterSettings.groundMount);
@@ -225,9 +225,9 @@ end
 -----------------------
 
 loadFrame:RegisterEvent("ADDON_LOADED");
-loadFrame:SetScript("OnEvent", function(self, event, ...)
-	local arg1,arg2,arg3,arg4 = ...;
-	if event == "ADDON_LOADED" and arg1 == "Acts Functions" then
+loadFrame:SetScript("OnEvent", function(_, event, ...)
+	local addonName, _ = ...;
+	if event == "ADDON_LOADED" and addonName == "Acts Functions" then
 		updateConfigWindow();
 		loadFrame:UnregisterEvent("ADDON_LOADED");
 	end
@@ -341,8 +341,8 @@ actConfigWindow.title:SetPoint("TOPLEFT", actConfigWindow, "TOPLEFT", 15, -5);
 actConfigWindow.title:SetText(GetAddOnMetadata("Acts Functions", "Title") .. " version: " .. GetAddOnMetadata("Acts Functions", "Version"));
 
 actConfigWindow:Hide();
-actConfigWindow:SetScript("OnShow", function(self) updateConfigWindow(); end);
-actConfigWindow:SetScript("OnHide", function(self) saveData(); end);
+actConfigWindow:SetScript("OnShow", function(_) updateConfigWindow(); end);
+actConfigWindow:SetScript("OnHide", function(_) saveData(); end);
 
 
 -----------------------

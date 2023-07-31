@@ -2,7 +2,7 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-local ADDON_NAME, namespace = ...;
+local _, namespace = ...;
 local functions = namespace.functions;
 local variables = namespace.variables;
 
@@ -13,39 +13,23 @@ local variables = namespace.variables;
 
 --Mount function
 function functions.getMount()
-	if
-		IsControlKeyDown() and
-		actCharacterSettings.ctrlMountBool
-	then
-		return actCharacterSettings.ctrlMount;
-
-	elseif
-		IsAltKeyDown() and
-		actCharacterSettings.altMountBool
-	then
-		return actCharacterSettings.altMount;
-
-	elseif
-		IsShiftKeyDown() and
-		actCharacterSettings.shiftMountBool
-	then
-		return actCharacterSettings.shiftMount;
-
-	elseif
-		actCharacterSettings.dragonFlyingMountBool and
-		variables.dragonFlyingZones[C_Map.GetBestMapForUnit("player")]
-	then
-		return actCharacterSettings.dragonFlyingMount;
-
-	elseif
-		not IsFlyableArea() and
-		actCharacterSettings.groundMountBool
-	then
-		return actCharacterSettings.groundMount;
-
-    else
-		return actCharacterSettings.defaultMount;
-	end
+	return
+		(actCharacterSettings.ctrlMountBool and IsControlKeyDown()) and
+			actCharacterSettings.ctrlMount
+		or
+		(actCharacterSettings.altMountBool and IsAltKeyDown()) and
+			actCharacterSettings.altMount
+		or
+		(actCharacterSettings.shiftMountBool and IsShiftKeyDown()) and
+			actCharacterSettings.shiftMount
+		or
+		(actCharacterSettings.dragonFlyingMountBool and variables.dragonFlyingZones[C_Map.GetBestMapForUnit("player")]) and
+			actCharacterSettings.dragonFlyingMount
+		or
+		(actCharacterSettings.groundMountBool and not IsFlyableArea()) and
+			actCharacterSettings.groundMount
+		or
+			actCharacterSettings.defaultMount;
 end
 
 --Function for finding items to disenchant, they have to be disenchantable and over ilvl 230.
@@ -54,16 +38,14 @@ function functions.disenchantScan()
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
 			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
-			if itemTable[4] then
-				if
-					itemTable[4] > actSettings.minIlvl and
-					itemTable[3] >= actSettings.minQuality and
-					itemTable[3] <= actSettings.maxQuality and
-					(itemTable[6] == "Weapon" and actSettings.deWeapon) or (itemTable[6] =="Armor" and actSettings.deArmor)
-				then
-					print(C_Container.GetContainerItemLink(bag, slot));
-					return bag .. " " .. slot;
-				end
+			if itemTable[4] and
+				itemTable[4] > actSettings.minIlvl and
+				itemTable[3] >= actSettings.minQuality and
+				itemTable[3] <= actSettings.maxQuality and
+				(itemTable[6] == "Weapon" and actSettings.deWeapon) or (itemTable[6] =="Armor" and actSettings.deArmor)
+			then
+				print(C_Container.GetContainerItemLink(bag, slot));
+				return bag .. " " .. slot;
 			end
 		end
 	end
@@ -75,7 +57,10 @@ function functions.prospectScan()
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
 			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
-			if itemTable[7] == "Metal & Stone" and select(2, C_Container.GetContainerItemInfo(bag,slot)) >= 5 then
+			if
+				itemTable[7] == "Metal & Stone" and
+				select(2, C_Container.GetContainerItemInfo(bag,slot)) >= 5
+			then
 				print(C_Container.GetContainerItemLink(bag, slot));
 				return bag .. " " .. slot;
 			end
@@ -89,7 +74,10 @@ function functions.millScan()
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
 			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
-			if itemTable[7] == "Herb" and select(2, C_Container.GetContainerItemInfo(bag, slot)) >= 5 then
+			if
+				itemTable[7] == "Herb" and
+				select(2, C_Container.GetContainerItemInfo(bag, slot)) >= 5
+			then
 				print(C_Container.GetContainerItemLink(bag, slot));
 				return bag .. " " .. slot;
 			end
@@ -103,7 +91,10 @@ function functions.itemScan(name)
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
 			local itemName = C_Container.GetContainerItemLink(bag, slot);
 
-			if itemName and string.find(itemName, name) then
+			if
+				itemName and
+				string.find(itemName, name)
+			then
 				print(C_Container.GetContainerItemLink(bag, slot));
 				return bag .. " " .. slot;
 			end
@@ -113,7 +104,7 @@ end
 
 --Hunter tracking function.
 function functions.hunterTrack(track)
-	if track ~= nil then
+	if track then
 		local id = variables.trackingArray[track];
 
 		if id ~= nil then
@@ -124,7 +115,7 @@ function functions.hunterTrack(track)
 	else
 		table.foreach(
 			variables.trackingArray,
-			function(key, value)
+			function(_, value)
 				C_Minimap.SetTracking(value, false);
 			end
 		);

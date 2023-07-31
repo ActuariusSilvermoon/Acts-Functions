@@ -12,11 +12,11 @@ local loadFrame = CreateFrame("FRAME");
 --FUNCTION DEFINITIONS-
 -----------------------
 
---Arr value filling.
+--Fill tracking array.
 local function fillTrackingArray()
 	for i = 1 , C_Minimap.GetNumTrackingTypes() do
-		local name, texture, active, category = C_Minimap.GetTrackingInfo(i);
-		local s1, type, s3 = strsplit(" ", name, 3);
+		local name, _, _, category = C_Minimap.GetTrackingInfo(i);
+		local s1, type, _ = strsplit(" ", name, 3);
 
 		if
 			category == "spell" and
@@ -45,7 +45,7 @@ end
 -----------------------
 
 loadFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
-loadFrame:SetScript("OnEvent", function(self, event, ...)
+loadFrame:SetScript("OnEvent", function(_, event, _)
 	if event == "PLAYER_ENTERING_WORLD" then
 		fillTrackingArray();
 

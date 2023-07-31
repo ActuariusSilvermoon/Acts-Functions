@@ -2,7 +2,7 @@
 ----LOCAL VARIABLES----
 -----------------------
 
-local ADDON_NAME, namespace = ...;
+local _, namespace = ...;
 local functions = {};
 local variables = {};
 local loadFrame = CreateFrame("FRAME");
@@ -17,7 +17,6 @@ SLASH_ACTFUNCTIONS2 = "/act"
 
 SlashCmdList.ACTFUNCTIONS = function(msg)
 	msg = string.lower(msg) or "";
-	local useString = "";
 
 	if msg == nil or msg == "" then 
 		print("No command received.");
@@ -43,14 +42,14 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 	end
 
 	if string.find(msg, "track") then
-		local track = UnitCreatureType("target");
-
 		if variables.class == "HUNTER"  then
-			functions.hunterTrack(track);
+			functions.hunterTrack(UnitCreatureType("target"));
 		end
 
 		return;
 	end
+
+	local useString = "";
 
 	if string.find(msg, "mount") then
 		useString = functions.getMount();
@@ -69,11 +68,7 @@ SlashCmdList.ACTFUNCTIONS = function(msg)
 		useString = functions.itemScan("Lockbox");
 	end
 
-	if not (useString == nil or useString == "") then
-		EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 " .. useString));
-	else
-		EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 "));
-	end
+	EditMacro(msg, nil, nil, GetMacroBody(msg):gsub("(us[e]).*","%1 " .. (useString or "")));
 end
 
 
@@ -82,9 +77,9 @@ end
 -----------------------
 
 loadFrame:RegisterEvent("ADDON_LOADED");
-loadFrame:SetScript("OnEvent", function(self, event, ...)
-	local arg1,arg2,arg3,arg4 = ...;
-    if event == "ADDON_LOADED" and arg1 == "Acts Functions" then
+loadFrame:SetScript("OnEvent", function(_, event, ...)
+	local addonName, _ = ...;
+    if event == "ADDON_LOADED" and addonName == "Acts Functions" then
         ------------
         --Settings--
         ------------
