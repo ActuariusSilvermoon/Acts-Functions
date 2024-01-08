@@ -11,21 +11,6 @@ local variables = namespace.variables;
 --VARIABLE DEFINITIONS-
 -----------------------
 
---Zones where mount macro should allow dragonriding maps.
-variables.dragonFlyingZones =
-{
-	[1978] = true, --Dragon Isles
-    [2112] = true, --Valdrakken
-    [2023] = true, --Ohn'ahran Plains
-    [2025] = true, --Thaldraszus
-    [2022] = true, --The Waking Shores
-    [2024] = true, --The Azure Span
-	[2093] = true, --The Kohud Offensive
-	[2085] = true, --Primalist Tomorrow
-	[2151] = true, --The Forbidden Reach
-	[2133] = true, --Zaralek Caverns
-};
-
 --Item Quality array to be used for disenchant macro.
 variables.itemQuality = {
 	{

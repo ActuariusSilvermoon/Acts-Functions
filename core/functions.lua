@@ -23,7 +23,7 @@ function functions.getMount()
 		(actCharacterSettings.shiftMountBool and IsShiftKeyDown()) and
 			actCharacterSettings.shiftMount
 		or
-		(actCharacterSettings.dragonFlyingMountBool and variables.dragonFlyingZones[C_Map.GetBestMapForUnit("player")]) and
+		(actCharacterSettings.dragonFlyingMountBool and IsAdvancedFlyableArea()) and
 			actCharacterSettings.dragonFlyingMount
 		or
 		(actCharacterSettings.groundMountBool and not IsFlyableArea()) and
