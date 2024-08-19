@@ -338,7 +338,7 @@ mountEditBoxFactory(
 actConfigWindow.title = actConfigWindow:CreateFontString(nil,"OVERLAY");
 actConfigWindow.title:SetFontObject("GameFontNormalLarge");
 actConfigWindow.title:SetPoint("TOPLEFT", actConfigWindow, "TOPLEFT", 15, -5);
-actConfigWindow.title:SetText(GetAddOnMetadata("Acts Functions", "Title") .. " version: " .. GetAddOnMetadata("Acts Functions", "Version"));
+actConfigWindow.title:SetText(C_AddOns.GetAddOnMetadata("Acts Functions", "Title") .. " version: " .. C_AddOns.GetAddOnMetadata("Acts Functions", "Version"));
 
 actConfigWindow:Hide();
 actConfigWindow:SetScript("OnShow", function(_) updateConfigWindow(); end);

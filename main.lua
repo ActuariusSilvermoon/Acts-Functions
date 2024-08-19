@@ -15,11 +15,12 @@ local loadFrame = CreateFrame("FRAME");
 --Fill tracking array.
 local function fillTrackingArray()
 	for i = 1 , C_Minimap.GetNumTrackingTypes() do
-		local name, _, _, category = C_Minimap.GetTrackingInfo(i);
-		local s1, type, _ = strsplit(" ", name, 3);
+		local TrackingItemTable = C_Minimap.GetTrackingInfo(i);
+
+		local s1, type, _ = strsplit(" ", TrackingItemTable["name"], 3);
 
 		if
-			category == "spell" and
+			TrackingItemTable["type"] == "spell" and
 			s1 == "Track" and
 			type ~= nil
 		then
