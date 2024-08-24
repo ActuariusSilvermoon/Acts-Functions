@@ -305,7 +305,7 @@ mountEditBoxFactory(
 	actConfigWindow.dragonFlyingMount.editBox,
 	45,
 	-250,
-	"Dragonflying Mount:",
+	"Skyriding Mount:",
 	"actDragonflyingMount",
 	true
 );

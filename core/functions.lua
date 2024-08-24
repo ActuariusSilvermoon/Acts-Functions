@@ -23,7 +23,7 @@ function functions.getMount()
 		(actCharacterSettings.shiftMountBool and IsShiftKeyDown()) and
 			actCharacterSettings.shiftMount
 		or
-		(actCharacterSettings.dragonFlyingMountBool and IsAdvancedFlyableArea()) and
+		(actCharacterSettings.dragonFlyingMountBool and IsAdvancedFlyableArea() and C_UnitAuras.GetPlayerAuraBySpellID(404464)) and
 			actCharacterSettings.dragonFlyingMount
 		or
 		(actCharacterSettings.groundMountBool and not IsFlyableArea()) and
@@ -36,7 +36,7 @@ end
 function functions.disenchantScan()
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
-			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
+			local itemTable = {C_Item.GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
 			if itemTable[4] and
 				itemTable[4] > actSettings.minIlvl and
@@ -55,7 +55,7 @@ end
 function functions.prospectScan()
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
-			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
+			local itemTable = {C_Item.GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
 			if
 				itemTable[7] == "Metal & Stone" and
@@ -72,7 +72,7 @@ end
 function functions.millScan()
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, C_Container.GetContainerNumSlots(bag) do
-			local itemTable = {GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
+			local itemTable = {C_Item.GetItemInfo(C_Container.GetContainerItemLink(bag, slot) or 0)}
 
 			if
 				itemTable[7] == "Herb" and
